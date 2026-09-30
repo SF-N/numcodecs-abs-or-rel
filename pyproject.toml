@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "numcodecs-abs-or-rel"
+version = "0.1.0"
+description = "Meta codec for a pointwise error bound that is the maximum of an absolute and a relative bound for the `numcodecs` buffer compression API"
+readme = "README.md"
+license = "MPL-2.0"
+requires-python = ">=3.10"
+dependencies = [
+    "leb128~=1.0.8",
+    "numcodecs>=0.13.0,<0.17",
+    "numcodecs-combinators~=0.2.13",
+    "numcodecs-mask>=0.1.0",
+    "numpy~=2.0",
+    "typing-extensions~=4.6",
+]
+
+[dependency-groups]
+dev = ["mypy~=1.14", "pytest~=8.3", "numcodecs-eb-quantize~=0.1.0"]
+
+[project.entry-points."numcodecs.codecs"]
+"abs_or_rel" = "numcodecs_abs_or_rel:AbsOrRelErrorBoundedCodec"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"numcodecs_abs_or_rel" = ["py.typed"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib"]
+xfail_strict = true
+
+[[tool.mypy.overrides]]
+module = ["leb128.*", "numcodecs.*", "numcodecs_combinators.*", "numcodecs_mask.*"]
+follow_untyped_imports = true
+
+[tool.uv.sources]
+# until https://github.com/juntyr/numcodecs-mask/pull/4 (MaskAwareCodecMixin) is released
+numcodecs-mask = { git = "https://github.com/SF-N/numcodecs-mask", branch = "mask-aware-codecs" }
+numcodecs-eb-quantize = { git = "https://github.com/SF-N/numcodecs-eb-quantize" }
