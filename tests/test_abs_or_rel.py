@@ -63,10 +63,9 @@ def check_roundtrip(data: np.ndarray, eb_abs: float, eb_rel: float):
     x = data[finite].astype(np.float64)
     error = np.abs(decoded[finite].astype(np.float64) - x)
     assert np.all(error <= np.maximum(eb_abs, eb_rel * np.abs(x)))
-    # signs are preserved in the relative regime, zeros map to zero
+    # signs are preserved in the relative regime
     large = np.abs(x) > eb_abs
     assert np.all(np.sign(decoded[finite][large]) == np.sign(x[large]))
-    assert np.all(decoded[finite][x == 0] == 0)
 
     out = np.empty_like(data)
     codec.decode(encoded, out=out)

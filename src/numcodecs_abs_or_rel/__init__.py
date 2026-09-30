@@ -53,9 +53,10 @@ class AbsOrRelErrorBoundedCodec(Codec, CodecCombinatorMixin, MaskAwareCodecMixin
     `|x| <= eb_abs / eb_rel` and logarithmic beyond. An absolute error of at
     most `ln(1 + eb_rel) / eb_rel` (which is slightly below `1`) on `y`
     therefore guarantees the mixed bound on `x`, for every finite value and
-    across the transition between the two regimes. Zero maps to zero and signs
-    are preserved for `|x| > eb_abs` (within the absolute regime the error may
-    cross zero). The translated absolute error bound replaces the
+    across the transition between the two regimes. Signs are preserved for
+    `|x| > eb_abs`; within the absolute regime the error may cross zero, so
+    exact zeros are not preserved (combine with a masking meta-codec if they
+    matter). The translated absolute error bound replaces the
     `eb_abs_marker` in the `codec` configuration, like in
     [`numcodecs-pw-ratio`](https://numcodecs-pw-ratio.readthedocs.io), which
     covers the purely relative case.

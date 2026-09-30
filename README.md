@@ -23,7 +23,7 @@ codec = AbsOrRelErrorBoundedCodec(
 )
 ```
 
-The inner `codec` configuration contains a marker (`eb_abs_marker`, default `"$eb_abs"`) that is replaced by the translated absolute error bound, like in [`numcodecs-pw-ratio`](https://numcodecs-pw-ratio.readthedocs.io) (which covers the purely relative case). Zero maps to zero and signs are preserved for `|x| > eb_abs` (within the absolute regime an error of `eb_abs` may cross zero). Non-finite values are passed through the transform unchanged; to preserve them exactly, combine with [`numcodecs-mask`](https://numcodecs-mask.readthedocs.io) (the codec forwards masks to mask-aware inner codecs).
+The inner `codec` configuration contains a marker (`eb_abs_marker`, default `"$eb_abs"`) that is replaced by the translated absolute error bound, like in [`numcodecs-pw-ratio`](https://numcodecs-pw-ratio.readthedocs.io) (which covers the purely relative case). Signs are preserved for `|x| > eb_abs`; within the absolute regime an error of `eb_abs` may cross zero, so exact zeros are not preserved (mask them if they matter). Non-finite values are passed through the transform unchanged; to preserve them exactly, combine with [`numcodecs-mask`](https://numcodecs-mask.readthedocs.io) (the codec forwards masks to mask-aware inner codecs).
 
 [`numcodecs`]: https://numcodecs.readthedocs.io/en/stable/
 
